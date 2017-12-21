@@ -1,0 +1,74 @@
+ /*
+  * Minesweeper: an exercise in front-end development by recreating Microsoft Minesweeper
+  * Copyright (C) 2017 Vasundhara Gautam
+  *
+  * This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+
+.params {
+  color: #1C6EA4;
+}
+.square {
+  background-color: #C6C6C6;
+  width: 22px;
+  height: 22px;
+}
+.unrevealed {
+  border: 4px outset #FFFFFF;
+}
+.clicked {
+  border: 4px inset #FFFFFF;
+}
+.square.revealed {
+  width: 28px;
+  height: 28px;
+  border-top: 2px solid #9D9D9D;
+  border-left: 2px solid #9D9D9D;
+}
+.revealed.one {
+  background: #C6C6C6 url("images/one.png") no-repeat 50% 50%;
+}
+.revealed.two {
+  background: #C6C6C6 url("images/two.png") no-repeat 50% 50%;
+}
+.revealed.three {
+  background: #C6C6C6 url("images/three.png") no-repeat 50% 50%;
+}
+.revealed.four {
+  background: #C6C6C6 url("images/four.png") no-repeat 50% 50%;
+}
+.revealed.five {
+  background: #C6C6C6 url("images/five.png") no-repeat 50% 50%;
+}
+.revealed.six {
+  background: #C6C6C6 url("images/six.png") no-repeat 50% 50%;
+}
+.revealed.seven {
+  background: #C6C6C6 url("images/seven.png") no-repeat 50% 50%;
+}
+.revealed.eight {
+  background: #C6C6C6 url("images/eight.png") no-repeat 50% 50%;
+}
+.revealed.mine {
+  background: #C6C6C6 url("images/mine.png") no-repeat 50% 50%;
+}
+.revealed.first {
+  background-color: #FF0000; /* red */
+}
+#minesweeper {
+  outline: 12px ridge #C9C9C9;
+  border-spacing: 0px;
+  margin-left: 10px;
+  margin-top: 20px;
+}

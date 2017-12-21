@@ -1,0 +1,53 @@
+<!--
+  - Minesweeper: an exercise in front-end development by recreating Microsoft Minesweeper
+  - Copyright (C) 2017 Vasundhara Gautam
+  -
+  - This program is free software: you can redistribute it and/or modify
+  - it under the terms of the GNU General Public License as published by
+  - the Free Software Foundation, either version 3 of the License, or
+  - (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU General Public License for more details.
+  -
+  - You should have received a copy of the GNU General Public License
+  - along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Minesweeper</title>
+  <script type="text/javascript" src="minesweeper.js"></script>
+  <link rel="stylesheet" href="minesweeper.css" type="text/css" />
+</head>
+
+<body onload=loadNewGame()>
+  <script src="jquery-3.2.1.js"></script>
+
+  <h1>Minesweeper 1.0</h1>
+
+  <form id="form" onchange=loadNewGame()>
+    <p> Rows:
+    <input class="params" type="range" id="rows" name="rows" min="2" max="20" value="9" step="1"> </p>
+    <p> Columns:
+    <input class="params" type="range" id="cols" name="cols" min="2" max="20" value="9" step="1"> </p>
+    <p> Difficulty: <br>
+    <input class="params" type="radio" id="difficulty" name="difficulty" value="easy" checked>
+      Easy <br>
+    <input class="params" type="radio" id="difficulty" name="difficulty" value="medium">
+      Medium <br>
+    <input class="params" type="radio" id="difficulty" name="difficulty" value="difficult">
+      Difficult </p>
+  </form>
+
+  <table id="minesweeper">
+  </table>
+
+</body>
+
+</html>
