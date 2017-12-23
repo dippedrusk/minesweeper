@@ -36,6 +36,9 @@
     <input class="params" type="range" id="rows" name="rows" min="2" max="20" value="9" step="1"> </p>
     <p> Columns:
     <input class="params" type="range" id="cols" name="cols" min="2" max="20" value="9" step="1"> </p>
+    <p> Mines:
+    <input class="params" type="range" id="mines" name="mines" min="1" max="399" value="23" step="1"> </p>
+    <!--
     <p> Difficulty: <br>
     <input class="params" type="radio" id="difficulty" name="difficulty" value="easy" checked>
       Easy <br>
@@ -43,10 +46,17 @@
       Medium <br>
     <input class="params" type="radio" id="difficulty" name="difficulty" value="difficult">
       Difficult </p>
+    -->
   </form>
 
-  <table id="minesweeper">
+  <table id="minesweeper" draggable="false">
   </table>
+
+  <p id="endGame">
+  </p>
+
+  <p id="test">
+  </p>
 
 </body>
 

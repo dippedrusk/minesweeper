@@ -27,6 +27,9 @@
 .unrevealed {
   border: 4px outset #FFFFFF;
 }
+.flagged {
+  background: #C6C6C6 url("images/flag.png") no-repeat 50% 50%;
+}
 .clicked {
   border: 4px inset #FFFFFF;
 }

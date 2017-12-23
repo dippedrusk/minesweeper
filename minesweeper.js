@@ -18,7 +18,9 @@
 
 var gameInProgress = false;
 var board = [];
-var numMines = 0;
+var rows = 0, cols = 0, numMines = 0;
+var minesSliderVal = 0;
+var numRevealedSquares = 0;
 //var validClick = true;
 //var mousedownid;
 //var timeout;
@@ -29,43 +31,53 @@ var numMines = 0;
 }*/
 
 function loadNewGame() {
+  /*document.oncontextmenu = function() {
+    return false;
+  };*/
   if (gameInProgress) {
     if (!(window.confirm("Are you sure you want to start a new game?")))
     {
+      $("#rows").val(rows);
+      $("#cols").val(cols);
+      $("#mines").val(minesSliderVal);
+      return;
+    }
+    else {
       gameInProgress = false;
-      return; // reset values to originals
     }
   }
-  var rows = $("#rows").val();
-  var cols = $("#cols").val();
-  switch ($("#difficulty").val()) {
-    case "easy":
-      numMines = Math.floor(0.4 * rows * cols); break;
-    case "difficult":
-      numMines = Math.floor(0.1 * rows * cols); break;
-    default:
-      numMines = Math.floor(0.25 * rows * cols); break;
+  $("#endGame").html("");
+  rows = $("#rows").val();
+  cols = $("#cols").val();
+  minesSliderVal = $("#mines").val();
+  if (minesSliderVal >= rows*cols) {
+    numMines = rows*cols - 1;
   }
+  else {
+    numMines = minesSliderVal;
+  }
+  numRevealedSquares = 0;
   board = [];
+
   for (var i = 0; i < rows*cols; i++) {
     board.push("");
   }
-  populateMines(rows, cols, numMines);
-  populateNumbers(rows, cols);
-  loadBoardHTML(rows, cols);
+  populateMines();
+  populateNumbers();
+  loadBoardHTML();
   $(".square").on("mousedown", handleMouseDown);
 }
 
-function loadBoardHTML(rows, cols) {
+function loadBoardHTML() {
   var html = "";
   for (var i = 0; i < rows; i++) {
-    html += "<tr>"
+    html += "<tr> ";
     for (var j = 0; j < cols; j++) {
       var id = i*cols + j;
       html += "<td class=\"square unrevealed" + board[id] + "\" ";
       html += "id=\"sq-";
       html += id.toString();
-      html += "\" </td>"
+      html += "\" </td>";
     }
     html += "</tr>";
   }
@@ -73,12 +85,28 @@ function loadBoardHTML(rows, cols) {
 }
 
 function handleMouseDown() {
-  if (!gameInProgress) {
+  if (!gameInProgress) { // first move
     gameInProgress = true;
+    if ($("#"+this.id).hasClass("mine")) {
+      repositionMine(this.id);
+      populateNumbers();
+      loadBoardHTML();
+      $(".square").on("mousedown", handleMouseDown);
+    }
   }
   if ($("#"+this.id).hasClass("unrevealed")) {
     revealSquare(this.id);
   }
+}
+
+function repositionMine(id) {
+  var position = id.slice(3);
+  var i = 0;
+  while (board[i] == " mine") {
+    i++;
+  }
+  board[i] = " mine";
+  board[position] = "";
 }
 
 function clickSquare(id) {
@@ -94,18 +122,88 @@ function unclickSquare(id) {
 }
 
 function revealSquare(id) {
+  $(".square").off("mousedown"); // temporarily pause listening for mouse events
   $("#"+id).removeClass("unrevealed");
   $("#"+id).removeClass("clicked");
   $("#"+id).addClass("revealed");
+  numRevealedSquares += 1;
+  if (isEmpty(id)) {
+    revealAdjacentSquares(id); // reveal no mines
+  }
   if ($("#"+id).hasClass("mine")) {
     $("#"+id).addClass("first");
-    endGame();
+    endGame("sad"); return;
+  }
+  if (numRevealedSquares == rows*cols - numMines) {
+    endGame("happy"); return;
+  }
+  $(".square").on("mousedown", handleMouseDown);
+}
+
+function isEmpty(id) {
+  var position = id.slice(3);
+  if (board[position] == "") {
+    return true;
+  }
+  return false;
+}
+
+function getID(position) {
+  return ("sq-" + position);
+}
+
+function revealAdjacentSquares(id) {
+  var position = id.slice(3);
+  for (var x = 0; x < rows; x++) {
+    for (var y = 0; y < cols-1; y++) {
+      if ((x*cols + y) == position) {
+        break;
+      }
+    }
+    if ((x*cols + y) == position) {
+      break;
+    }
+  }
+  var px = x-1;
+	var nx = x+1;
+	var py = y-1;
+	var ny = y+1;
+
+  if ((px>-1) && (py>-1) && (board[px*cols + py] != " mine") && (($("#"+getID(px*cols + py)).hasClass("unrevealed")))) {
+    revealSquare(getID(px*cols + py));
+  }
+  if ((px>-1) && (board[px*cols + y] != " mine") && (($("#"+getID(px*cols + y)).hasClass("unrevealed")))) {
+    revealSquare(getID(px*cols + y));
+  }
+  if ((px>-1) && (ny<cols) && (board[px*cols + ny] != " mine") && (($("#"+getID(px*cols + ny)).hasClass("unrevealed")))) {
+    revealSquare(getID(px*cols + ny));
+  }
+  if ((py>-1) && (board[x*cols + py] != " mine") && (($("#"+getID(x*cols + py)).hasClass("unrevealed")))) {
+    revealSquare(getID(x*cols + py));
+  }
+  if ((ny<cols) && (board[x*cols + ny] != " mine") && (($("#"+getID(x*cols + ny)).hasClass("unrevealed")))) {
+    revealSquare(getID(x*cols + ny));
+  }
+  if ((nx<rows) && (py>-1) && (board[nx*cols + py] != " mine") && (($("#"+getID(nx*cols + py)).hasClass("unrevealed")))) {
+    revealSquare(getID(nx*cols + py));
+  }
+  if ((nx<rows) && (board[nx*cols + y] != " mine") && (($("#"+getID(nx*cols + y)).hasClass("unrevealed")))) {
+    revealSquare(getID(nx*cols + y));
+  }
+  if ((nx<rows) && (ny<cols) && (board[nx*cols + ny] != " mine") && (($("#"+getID(nx*cols + ny)).hasClass("unrevealed")))) {
+    revealSquare(getID(nx*cols + ny));
   }
 }
 
-function endGame() {
+function endGame(smileyStatus) {
   $(".square").off("mousedown");
-  revealAllMines();
+  if (smileyStatus == "happy") {
+    $("#endGame").html("You won! :D");
+  }
+  else {
+    $("#endGame").html("You lose! :(");
+    revealAllMines();
+  }
   gameInProgress = false;
 }
 
@@ -119,8 +217,8 @@ function revealAllMines() {
   }
 }
 
-function populateMines(rows, cols, mines) {
-  for (var i = 0; i < mines; i++) {
+function populateMines() {
+  for (var i = 0; i < numMines; i++) {
     var position;
     do {
       position = Math.floor(Math.random() * rows*cols);
@@ -129,12 +227,12 @@ function populateMines(rows, cols, mines) {
   }
 }
 
-function populateNumbers(rows, cols) {
+function populateNumbers() {
   for (var x = 0; x < rows; x++) {
     for (var y = 0; y < cols; y++) {
       var position = x*cols + y;
-      if (!(board[position] == " mine")) {
-        var surroundingMines = countSurroundingMines(x, y, rows, cols);
+      if (board[position] != " mine") {
+        var surroundingMines = countSurroundingMines(x, y);
         switch (surroundingMines) {
           case 1:
             board[position] = " one"; break;
@@ -160,14 +258,14 @@ function populateNumbers(rows, cols) {
   }
 }
 
-function countSurroundingMines(x, y, rows, cols) {
+function countSurroundingMines(x, y) {
   var px = x-1;
 	var nx = x+1;
 	var py = y-1;
 	var ny = y+1;
 	var surrounding = 0;
 
-  if ((px>-1) && (py>-1) && (board[px*cols + py]) == " mine") {
+  if ((px>-1) && (py>-1) && (board[px*cols + py] == " mine")) {
     surrounding += 1;
   }
   if ((px>-1) && (board[px*cols + y] == " mine")) {
@@ -182,13 +280,13 @@ function countSurroundingMines(x, y, rows, cols) {
   if ((ny<cols) && (board[x*cols + ny] == " mine")) {
     surrounding += 1;
   }
-  if ((nx<rows) && (board[nx*cols + py] == " mine")) {
+  if ((nx<rows) && (py>-1) && (board[nx*cols + py] == " mine")) {
     surrounding += 1;
   }
   if ((nx<rows) && (board[nx*cols + y] == " mine")) {
     surrounding += 1;
   }
-  if ((nx<rows) && (board[nx*cols + ny] == " mine")) {
+  if ((nx<rows) && (ny<cols) && (board[nx*cols + ny] == " mine")) {
     surrounding += 1;
   }
 
