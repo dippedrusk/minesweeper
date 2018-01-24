@@ -31,9 +31,6 @@ var numRevealedSquares = 0;
 }*/
 
 function loadNewGame() {
-  /*document.oncontextmenu = function() {
-    return false;
-  };*/
   if (gameInProgress) {
     if (!(window.confirm("Are you sure you want to start a new game?")))
     {
@@ -73,29 +70,40 @@ function loadBoardHTML() {
   for (var i = 0; i < rows; i++) {
     html += "<tr> ";
     for (var j = 0; j < cols; j++) {
-      var id = i*cols + j;
-      html += "<td class=\"square unrevealed" + board[id] + "\" ";
-      html += "id=\"sq-";
-      html += id.toString();
-      html += "\" </td>";
+      html += "<td class=\"square unrevealed" + board[i*cols + j] + "\" ";
+      var id = getID(i*cols + j);
+      html += "id=\"" + id + "\" </td>";
+      //$("#"+id).contextmenu(function() {return false;});
     }
     html += "</tr>";
   }
   $("#minesweeper").html(html);
 }
 
-function handleMouseDown() {
+function handleMouseDown(event) {
   if (!gameInProgress) { // first move
     gameInProgress = true;
-    if ($("#"+this.id).hasClass("mine")) {
+    // first move reveals a mine
+    if ((event.button != 2) && ($("#"+this.id).hasClass("mine"))) {
       repositionMine(this.id);
       populateNumbers();
       loadBoardHTML();
       $(".square").on("mousedown", handleMouseDown);
     }
   }
+
   if ($("#"+this.id).hasClass("unrevealed")) {
-    revealSquare(this.id);
+    if (event.button == 2) {
+      if ($("#"+this.id).hasClass("flagged")) {
+        $("#"+this.id).removeClass("flagged");
+      }
+      else {
+        $("#"+this.id).addClass("flagged");
+      }
+    }
+    else {
+      revealSquare(this.id);
+    }
   }
 }
 
@@ -122,7 +130,9 @@ function unclickSquare(id) {
 }
 
 function revealSquare(id) {
-  $(".square").off("mousedown"); // temporarily pause listening for mouse events
+  if ($("#"+id).hasClass("flagged")) {
+    return;
+  }
   $("#"+id).removeClass("unrevealed");
   $("#"+id).removeClass("clicked");
   $("#"+id).addClass("revealed");
@@ -137,7 +147,6 @@ function revealSquare(id) {
   if (numRevealedSquares == rows*cols - numMines) {
     endGame("happy"); return;
   }
-  $(".square").on("mousedown", handleMouseDown);
 }
 
 function isEmpty(id) {
@@ -210,9 +219,14 @@ function endGame(smileyStatus) {
 function revealAllMines() {
   for (var i = 0; i < board.length; i++) {
     if (board[i] == " mine") {
-      $("#sq-"+i).removeClass("unrevealed");
-      $("#sq-"+i).removeClass("clicked");
-      $("#sq-"+i).addClass("revealed");
+      var id = getID(i);
+      $("#"+id).removeClass("unrevealed");
+      $("#"+id).removeClass("clicked");
+      $("#"+id).addClass("revealed");
+      if ($("#"+id).hasClass("flagged")) {
+        $("#"+id).removeClass("flagged");
+        $("#"+id).addClass("crossed");
+      }
     }
   }
 }

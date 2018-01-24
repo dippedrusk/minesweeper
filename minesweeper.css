@@ -66,6 +66,9 @@
 .revealed.mine {
   background: #C6C6C6 url("images/mine.png") no-repeat 50% 50%;
 }
+.revealed.mine.crossed {
+  background: #C6C6C6 url("images/mine_crossed.png") no-repeat 50% 50%;
+}
 .revealed.first {
   background-color: #FF0000; /* red */
 }
