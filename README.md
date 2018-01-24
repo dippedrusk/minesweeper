@@ -1,11 +1,11 @@
 # Minesweeper
 
+![Sample Minesweeper play](./images/sample_play.png)
+
 Recreating the old Microsoft Minesweeper with HTML, CSS, JavaScript and jQuery.
 This project is licensed under the terms of the GNU General Public License.
 
 Download the files and open minesweeper.html in a browser.
-
-![Sample Minesweeper play](../images/sample_play.png?raw=true)
 
 ## To-do list
 * Improve the user experience of clicking squares (timeout for mouseup, change
