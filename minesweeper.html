@@ -26,8 +26,16 @@
   <link rel="stylesheet" href="minesweeper.css" type="text/css" />
 </head>
 
-<body onload=loadNewGame()>
+<body>
   <script src="jquery-3.2.1.js"></script>
+  <script>
+    $(document).ready(function(){
+      $("*").contextmenu(function(){
+        return false;
+      });
+      loadNewGame();
+    });
+  </script>
 
   <h1>Minesweeper 1.0</h1>
 
@@ -49,13 +57,13 @@
     -->
   </form>
 
+  <p>Timer:</p>
+  <p id="crudeClock">0</p>
+
   <table id="minesweeper" draggable="false">
   </table>
 
   <p id="endGame">
-  </p>
-
-  <p id="test">
   </p>
 
 </body>

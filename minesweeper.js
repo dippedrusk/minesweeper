@@ -21,14 +21,11 @@ var board = [];
 var rows = 0, cols = 0, numMines = 0;
 var minesSliderVal = 0;
 var numRevealedSquares = 0;
-//var validClick = true;
+var clock;
+var currSeconds = 0;
+// var validClick = true;
 //var mousedownid;
 //var timeout;
-
-/*function getMinesAttr() {
-  $("#mines").attr("max", ($("#rows").val() * $("#cols").val()) - 1);
-  $("#mines").attr("value", Math.floor(0.2 * $("#mines").attr("max")));
-}*/
 
 function loadNewGame() {
   if (gameInProgress) {
@@ -38,8 +35,7 @@ function loadNewGame() {
       $("#cols").val(cols);
       $("#mines").val(minesSliderVal);
       return;
-    }
-    else {
+    } else {
       gameInProgress = false;
     }
   }
@@ -49,8 +45,7 @@ function loadNewGame() {
   minesSliderVal = $("#mines").val();
   if (minesSliderVal >= rows*cols) {
     numMines = rows*cols - 1;
-  }
-  else {
+  } else {
     numMines = minesSliderVal;
   }
   numRevealedSquares = 0;
@@ -73,7 +68,6 @@ function loadBoardHTML() {
       html += "<td class=\"square unrevealed" + board[i*cols + j] + "\" ";
       var id = getID(i*cols + j);
       html += "id=\"" + id + "\" </td>";
-      //$("#"+id).contextmenu(function() {return false;});
     }
     html += "</tr>";
   }
@@ -83,8 +77,9 @@ function loadBoardHTML() {
 function handleMouseDown(event) {
   if (!gameInProgress) { // first move
     gameInProgress = true;
+    startTimer();
     // first move reveals a mine
-    if ((event.button != 2) && ($("#"+this.id).hasClass("mine"))) {
+    if ((event.which != 2) && ($("#"+this.id).hasClass("mine"))) {
       repositionMine(this.id);
       populateNumbers();
       loadBoardHTML();
@@ -93,15 +88,13 @@ function handleMouseDown(event) {
   }
 
   if ($("#"+this.id).hasClass("unrevealed")) {
-    if (event.button == 2) {
+    if (event.which == 3) {
       if ($("#"+this.id).hasClass("flagged")) {
         $("#"+this.id).removeClass("flagged");
-      }
-      else {
+      } else {
         $("#"+this.id).addClass("flagged");
       }
-    }
-    else {
+    } else {
       revealSquare(this.id);
     }
   }
@@ -205,11 +198,11 @@ function revealAdjacentSquares(id) {
 }
 
 function endGame(smileyStatus) {
+  clearInterval(clock);
   $(".square").off("mousedown");
   if (smileyStatus == "happy") {
     $("#endGame").html("You won! :D");
-  }
-  else {
+  } else {
     $("#endGame").html("You lose! :(");
     revealAllMines();
   }
@@ -305,4 +298,13 @@ function countSurroundingMines(x, y) {
   }
 
   return surrounding;
+}
+
+function startTimer() {
+  $("#crudeClock").html(++currSeconds);
+  clock = setInterval(updateTimer, 1000);
+}
+
+function updateTimer() {
+  $("#crudeClock").html(++currSeconds);
 }
