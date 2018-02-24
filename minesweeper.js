@@ -22,6 +22,7 @@ var rows = 0, cols = 0, numMines = 0;
 var minesSliderVal = 0;
 var numRevealedSquares = 0;
 var clock;
+var countdown;
 var currSeconds = 0;
 // var validClick = true;
 //var mousedownid;
@@ -48,6 +49,8 @@ function loadNewGame() {
   } else {
     numMines = minesSliderVal;
   }
+  countdown = numMines;
+  updateCountdown();
   numRevealedSquares = 0;
   board = [];
 
@@ -67,7 +70,7 @@ function loadBoardHTML() {
     for (var j = 0; j < cols; j++) {
       html += "<td class=\"square unrevealed" + board[i*cols + j] + "\" ";
       var id = getID(i*cols + j);
-      html += "id=\"" + id + "\" </td>";
+      html += "id=\"" + id + "\"/>";
     }
     html += "</tr>";
   }
@@ -91,9 +94,12 @@ function handleMouseDown(event) {
     if (event.which == 3) {
       if ($("#"+this.id).hasClass("flagged")) {
         $("#"+this.id).removeClass("flagged");
+        countdown += 1;
       } else {
         $("#"+this.id).addClass("flagged");
+        countdown -= 1;
       }
+      updateCountdown();
     } else {
       revealSquare(this.id);
     }
@@ -307,4 +313,8 @@ function startTimer() {
 
 function updateTimer() {
   $("#crudeClock").html(++currSeconds);
+}
+
+function updateCountdown() {
+  $("#crudeCountdown").html(countdown);
 }
