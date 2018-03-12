@@ -28,7 +28,7 @@ var currSeconds = 0;
 //var mousedownid;
 //var timeout;
 
-function loadNewGame() {
+function handleParamChange() {
   if (gameInProgress) {
     if (!(window.confirm("Are you sure you want to start a new game?")))
     {
@@ -36,10 +36,21 @@ function loadNewGame() {
       $("#cols").val(cols);
       $("#mines").val(minesSliderVal);
       return;
-    } else {
-      gameInProgress = false;
     }
   }
+  loadNewGame();
+}
+
+function loadNewGame() {
+  $("#game").on("mousedown", function()
+    { return false; }
+  );
+  gameInProgress = false;
+
+  clearInterval(clock);
+  currSeconds = -1;
+  updateTimer();
+
   $("#endGame").html("");
   rows = $("#rows").val();
   cols = $("#cols").val();
@@ -60,7 +71,11 @@ function loadNewGame() {
   populateMines();
   populateNumbers();
   loadBoardHTML();
-  $(".square").on("mousedown", handleMouseDown);
+  $(".board.square").on("mousedown", handleMouseDown);
+
+  $("#smiley").removeClass("loss win load");
+  $("#smiley").addClass("happy");
+  $("#smiley").on("mousedown", handleMouseDownSmiley);
 }
 
 function loadBoardHTML() {
@@ -68,25 +83,40 @@ function loadBoardHTML() {
   for (var i = 0; i < rows; i++) {
     html += "<tr> ";
     for (var j = 0; j < cols; j++) {
-      html += "<td class=\"square unrevealed" + board[i*cols + j] + "\" ";
+      html += "<td class=\"board square unrevealed" + board[i*cols + j] + "\" ";
       var id = getID(i*cols + j);
       html += "id=\"" + id + "\"/>";
     }
     html += "</tr>";
   }
   $("#minesweeper").html(html);
+  $("#smiley").removeClass("loss win load");
+  $("#smiley").addClass("happy");
+}
+
+function handleMouseDownSmiley(event) {
+  if ($("#smiley").hasClass("happy") && !gameInProgress) {
+    return;
+  }
+  // TODO: add CSS to press button when clicked
+  loadNewGame();
 }
 
 function handleMouseDown(event) {
+  // TODO: add CSS to press button when clicked
+  // TODO: change smiley class from happy to load and then back to happy on mouseup
   if (!gameInProgress) { // first move
     gameInProgress = true;
     startTimer();
     // first move reveals a mine
     if ((event.which != 2) && ($("#"+this.id).hasClass("mine"))) {
+      $(".board.square").on("mousedown", function()
+        { return false; }
+      );
       repositionMine(this.id);
       populateNumbers();
       loadBoardHTML();
-      $(".square").on("mousedown", handleMouseDown);
+      $(".board.square").on("mousedown", handleMouseDown);
     }
   }
 
@@ -204,12 +234,14 @@ function revealAdjacentSquares(id) {
 }
 
 function endGame(smileyStatus) {
+  $(".board.square").off("mousedown");
   clearInterval(clock);
-  $(".square").off("mousedown");
   if (smileyStatus == "happy") {
-    $("#endGame").html("You won! :D");
+    $("#smiley").removeClass("loss load happy");
+    $("#smiley").addClass("win");
   } else {
-    $("#endGame").html("You lose! :(");
+    $("#smiley").removeClass("win load happy");
+    $("#smiley").addClass("loss");
     revealAllMines();
   }
   gameInProgress = false;
@@ -307,6 +339,7 @@ function countSurroundingMines(x, y) {
 }
 
 function startTimer() {
+  currSeconds = 0;
   $("#crudeClock").html(++currSeconds);
   clock = setInterval(updateTimer, 1000);
 }

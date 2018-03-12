@@ -26,11 +26,13 @@
 }
 .square {
   background-color: #C6C6C6;
-  width: 22px;
-  height: 22px;
 }
 .unrevealed {
   border: 4px outset #FFFFFF;
+}
+.board {
+  width: 22px;
+  height: 22px;
 }
 .flagged {
   background: #C6C6C6 url("images/flag.png") no-repeat 50% 50%;
@@ -87,7 +89,7 @@
 #scorepanel {
   border: 12px ridge #FFFFFF;
   background: #C6C6C6;
-  height: 40px;
+  height: 60px;
   border-spacing: 0px;
   margin: 0px;
 }
@@ -95,19 +97,31 @@
   float: left;
 }
 #smiley {
+  width: 40px;
+  height: 40px;
   margin: 0 auto;
+  top: 10%;
+  position: relative;
 }
 .happy {
-  background: url("images/happy_smiley.png") no-repeat;
+  background: url("images/happy.png") no-repeat 50% 50%;
 }
 .loss {
-  background: url("images/loss_smiley.png") no-repeat;
-}.win {
-  background: url("images/win_smiley.png") no-repeat;
+  background: url("images/loss.png") no-repeat 50% 50%;
+}
+.win {
+  background: url("images/win.png") no-repeat 50% 50%;
+}
+.load {
+  background: url("images/one.png") no-repeat 50% 50%;
 }
 #timer {
   float: right;
+  height: auto;
+  width: auto;
 }
 #countdown {
   float: left;
+  height: auto;
+  width: auto;
 }

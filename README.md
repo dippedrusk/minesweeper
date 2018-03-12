@@ -10,7 +10,7 @@ Download the files and open minesweeper.html in a browser.
 ## To-do list
 * Improve the user experience of clicking squares (timeout for mouseup, change
   CSS for clicked squares, etc.)
-* Add smiley face, mine countdown and timer from original game
+* Add mine countdown and timer from original game
 * Experiment with Bootstrap?
 * Add server-side component for high scores, use Node.js?
 * Obscure square status from the HTML

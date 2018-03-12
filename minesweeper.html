@@ -39,13 +39,13 @@
 
   <h1>Minesweeper 1.0</h1>
 
-  <form id="form" onchange=loadNewGame()>
+  <form id="form" onchange=handleParamChange()>
     <p> Rows:
     <input class="params" type="range" id="rows" name="rows" min="2" max="20" value="9" step="1"> </p>
     <p> Columns:
     <input class="params" type="range" id="cols" name="cols" min="2" max="20" value="9" step="1"> </p>
     <p> Mines:
-    <input class="params" type="range" id="mines" name="mines" min="1" max="399" value="23" step="1"> </p>
+    <input class="params" type="range" id="mines" name="mines" min="1" max="399" value="10" step="1"> </p>
     <!--
     <p> Difficulty: <br>
     <input class="params" type="radio" id="difficulty" name="difficulty" value="easy" checked>
@@ -64,16 +64,21 @@
 
   <div id="game">
     <div id="scorepanel" draggable="false">
-      <span id="countdown"></span>
-      <span id="smiley"></span>
-      <span id="timer"></span>
+      <div id="countdown">
+        <div id="countdown_hundreds"></div>
+        <div id="countdown_tens"></div>
+        <div id="countdown_ones"></div>
+      </div>
+      <div id="smiley" class="square unrevealed"></div>
+      <div id="timer">
+        <div id="timer_hundreds"></div>
+        <div id="timer_tens"></div>
+        <div id="timer_ones"></div>
+      </div>
     </div>
     <table id="minesweeper" draggable="false">
     </table>
   </div>
-
-  <p id="endGame">
-  </p>
 
 </body>
 
