@@ -116,9 +116,56 @@
   background: url("images/one.png") no-repeat 50% 50%;
 }
 #timer {
+  position: relative;
+  height: 46px;
+  width: 78px;
+  margin-bottom: 0px;
+  margin-left: 205px;
+  margin-top: -40px;
+}
+.timer {
+  height: inherit;
+  width: 26px;
+}
+#timer_hundreds {
+  float: left;
+}
+#timer_tens {
+  margin: auto;
+}
+#timer_ones {
   float: right;
-  height: auto;
-  width: auto;
+  margin-top: -46px;
+}
+.timer.zero {
+  background: url("images/digits/zero.png") no-repeat 100% 100%;
+}
+.timer.one {
+  background: #C6C6C6 url("images/digits/one.png") no-repeat 50% 50%;
+}
+.timer.two {
+  background: #C6C6C6 url("images/digits/two.png") no-repeat 50% 50%;
+}
+.timer.three {
+  background: #C6C6C6 url("images/digits/three.png") no-repeat 50% 50%;
+}
+.timer.four {
+  background: #C6C6C6 url("images/digits/four.png") no-repeat 50% 50%;
+}
+.timer.five {
+  background: #C6C6C6 url("images/digits/five.png") no-repeat 50% 50%;
+}
+.timer.six {
+  background: #C6C6C6 url("images/digits/six.png") no-repeat 50% 50%;
+}
+.timer.seven {
+  background: #C6C6C6 url("images/digits/seven.png") no-repeat 50% 50%;
+}
+.timer.eight {
+  background: #C6C6C6 url("images/digits/eight.png") no-repeat 50% 50%;
+}
+.timer.nine {
+  background: #C6C6C6 url("images/digits/eight.png") no-repeat 50% 50%;
 }
 #countdown {
   float: left;
