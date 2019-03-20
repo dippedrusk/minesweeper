@@ -12,7 +12,7 @@
 
 ![Sample Minesweeper play](./images/sample_play.png)
 
-## Built with 
+## Built With 
 Recreating the old Microsoft Minesweeper with HTML, CSS, JavaScript and jQuery.
 
 ## Installing 
