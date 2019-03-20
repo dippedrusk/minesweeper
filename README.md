@@ -12,8 +12,10 @@
 
 ![Sample Minesweeper play](./images/sample_play.png)
 
+## Built with 
 Recreating the old Microsoft Minesweeper with HTML, CSS, JavaScript and jQuery.
-This project is licensed under the terms of the GNU General Public License.
+
+## Installing 
 ```bash
 Download the files and open minesweeper.html in a browser.
 ```
@@ -24,3 +26,6 @@ Download the files and open minesweeper.html in a browser.
 * Experiment with Bootstrap?
 * Add server-side component for high scores, use Node.js?
 * Obscure square status from the HTML
+
+## License
+This project is licensed under the terms of the GNU General Public License.
