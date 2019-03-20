@@ -1,5 +1,15 @@
 # Minesweeper
 
+## Rules 
+* The number of mines in a board and the size of the board is predetermined by the player. The default board size is 9 * 9, and the number of mines in the board is 10. 
+* A "square" indicates any of the units in the game of minesweeper that contain either a number, a blank("0"), or a mine.
+* The first square clicked never contains a mine.
+* Left-clicking the square and chordinhg.
+* If a square is successfully opened without containing a mine, it shows a number. The number indicates the number of mines that exist in the eight squares touching the square the number was in.
+* Right-clicking the square, a flag appears over the square. Right-clicking again to remove the flag. 
+* The game of minesweeper is won at the point when all squares that are not mines are clicked open.
+* The game of minesweeper is lost there is any inaccuracy in the flagging around the number
+
 ![Sample Minesweeper play](./images/sample_play.png)
 
 Recreating the old Microsoft Minesweeper with HTML, CSS, JavaScript and jQuery.
