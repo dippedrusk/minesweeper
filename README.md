@@ -8,7 +8,7 @@
 * If a square is successfully opened without containing a mine, it shows a number. The number indicates the number of mines that exist in the eight squares touching the square the number was in.
 * Right-clicking the square, a flag appears over the square. Right-clicking again to remove the flag. 
 * The game of minesweeper is won at the point when all squares that are not mines are clicked open.
-* The game of minesweeper is lost there is any inaccuracy in the flagging around the number
+* The game of minesweeper is lost there is any inaccuracy in the flagging around the number or a square that the player clicks open contains a mine.
 
 ![Sample Minesweeper play](./images/sample_play.png)
 
